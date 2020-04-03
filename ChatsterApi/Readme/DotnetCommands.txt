@@ -1,0 +1,37 @@
+Commands
+
+1. Create a new project:
+
+Open command prompt 
+mkdir CodeRepository
+cd CodeRepository
+mkdir Chatster
+cd Chatster
+dotnet --info (Verify dotnet version)
+dotnet --h (Help)
+dotnet new --h (Help on type of projects that can be created)
+
+dotnet new webapi -n ChatsterApi (Creates the prject folder)
+cd ChatsterApi
+Dir (Verify files are listed)
+
+
+2. Run project
+
+dotnet build
+dotnet run
+dotnet watch run
+
+3. Install Entity Framework
+
+dotnet tool install --global dotnet-ef
+
+dotnet ef --h (Help)
+
+dotnet ef migrations --h
+
+dotnet ef migrations add <MigrationName>
+
+dotnet ef database update
+
+dotnet ef migrations remove -f

@@ -1,0 +1,7 @@
+.vscode
+bin
+obj
+ChatsterApi/.vscode
+ChatsterApi/bin
+ChatsterApi/obj
+ChatsterApi/ChatsterApi.DB

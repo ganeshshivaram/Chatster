@@ -1,0 +1,6 @@
+1. C#
+2. C# Extensions
+3. Nuget package Manager
+
+Open Terminal (Ctrl + Shift + P) -> generate
+Open Terminal (Ctrl + Shift + P) -> reload
