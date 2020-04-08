@@ -29,10 +29,11 @@ namespace ChatsterApi.Controllers
         {
             userForRegisterDto.Username = userForRegisterDto.Username.Trim().ToLower();
 
-            if(await _authRepository.DoesUserExist(userForRegisterDto.Username))
+            if (await _authRepository.DoesUserExist(userForRegisterDto.Username))
                 return BadRequest("User already exists");
 
-            var userToCreate = new User() {
+            var userToCreate = new User()
+            {
                 Username = userForRegisterDto.Username
             };
 
@@ -46,9 +47,9 @@ namespace ChatsterApi.Controllers
         {
             var user = await _authRepository.Login(userForLoginDto.Username.ToLower(),
                                                    userForLoginDto.Password);
-            
-            if(user == null)
-               return NotFound("User not found");
+
+            if (user == null)
+                return NotFound("User not found");
 
             var claims = new[] {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
@@ -60,7 +61,8 @@ namespace ChatsterApi.Controllers
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
-            var tokenDescriptor = new SecurityTokenDescriptor() {
+            var tokenDescriptor = new SecurityTokenDescriptor()
+            {
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.Now.AddDays(1),
                 SigningCredentials = creds
@@ -69,7 +71,8 @@ namespace ChatsterApi.Controllers
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            return Ok(new {
+            return Ok(new
+            {
                 token = tokenHandler.WriteToken(token)
             });
         }
