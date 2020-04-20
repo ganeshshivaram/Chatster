@@ -12,6 +12,8 @@ import { AuthService } from 'src/_services/auth.service';
 import { HttpInterceptorProvider } from 'src/_services/error.interceptor';
 import { AlertifyService } from 'src/_services/alertify.service';
 import { MemberDetailResolver } from 'src/_resolvers/member-detail.resolver';
+import { MembersResolver } from 'src/_resolvers/members.resolver';
+import { MemberEditResolver } from 'src/_resolvers/member-edit.resolver';
 
 import { RoutesRoutes } from 'src/routes.routing';
 import { AppComponent } from './app.component';
@@ -23,7 +25,7 @@ import { MessagesComponent } from './messages/messages.component';
 import { ListsComponent } from './lists/lists.component';
 import { MemberCardComponent } from './members/member-card/member-card.component';
 import { MemberDetailComponent } from './members/member-detail/member-detail.component';
-import { MembersResolver } from 'src/_resolvers/members.resolver';
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -40,6 +42,7 @@ export function tokenGetter() {
     MessagesComponent,
     ListsComponent,
     MemberDetailComponent,
+    MemberEditComponent,
   ],
   imports: [
     BrowserModule,
@@ -64,6 +67,7 @@ export function tokenGetter() {
     AlertifyService,
     MemberDetailResolver,
     MembersResolver,
+    MemberEditResolver,
   ],
   bootstrap: [AppComponent],
 })

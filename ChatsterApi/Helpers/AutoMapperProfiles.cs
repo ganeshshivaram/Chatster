@@ -29,6 +29,7 @@ namespace ChatsterApi.Helpers
                 )
             );
             CreateMap<Photo, PhotosForDetailedDto>();
+            CreateMap<UserForUpdateDto, User>();
         }
     }
 }
