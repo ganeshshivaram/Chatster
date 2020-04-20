@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class AuthService {
   constructor(private http: HttpClient) {}
   jwtHelper = new JwtHelperService();
   decodedToken: any = {};
-  baseUrl = 'http://localhost:5000/api/auth/';
+  baseUrl = environment.apiBaseUrl + 'auth/';
 
   login(loginData: any) {
     return this.http.post(this.baseUrl + 'login', loginData).pipe(
