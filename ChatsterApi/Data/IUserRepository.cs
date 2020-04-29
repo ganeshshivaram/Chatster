@@ -15,6 +15,6 @@ namespace ChatsterApi.Data
         Task<List<User>> GetAllUsers();
 
         Task<bool> SaveAll();
-
+        Task<Photo> GetMainPhoto(int userId);
     }
 }

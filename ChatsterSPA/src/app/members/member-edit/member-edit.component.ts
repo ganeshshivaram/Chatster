@@ -13,6 +13,7 @@ import { UserService } from 'src/_services/user.service';
 })
 export class MemberEditComponent implements OnInit {
   user: User;
+  photoUrl: string;
   @ViewChild('editForm', { static: true }) editForm: NgForm;
 
   // Handle forceful browser closure
@@ -34,6 +35,10 @@ export class MemberEditComponent implements OnInit {
     this.route.data.subscribe((data) => {
       this.user = data.user;
     });
+
+    this.authService.currentPhotoUrl.subscribe((url) => {
+      this.photoUrl = url;
+    });
   }
 
   updateUser() {
@@ -48,5 +53,12 @@ export class MemberEditComponent implements OnInit {
           this.alertify.error(error);
         }
       );
+  }
+
+  updateMemberMainPhoto(photourl: string) {
+    this.user.photoUrl = photourl;
+    this.authService.changeMemberPhoto(photourl);
+    this.authService.loggedInUser = this.user;
+    localStorage.setItem('logged_in_user', JSON.stringify(this.user));
   }
 }

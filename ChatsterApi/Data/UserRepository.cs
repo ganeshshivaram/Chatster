@@ -21,16 +21,21 @@ namespace ChatsterApi.Data
             _context.SaveChanges();
         }
 
-        public async void Delete<T>(T entity) where T : class
+        public void Delete<T>(T entity) where T : class
         {
             _context.Remove(entity);
-            await _context.SaveChangesAsync();
         }
 
         public async Task<List<User>> GetAllUsers()
         {
             var users = await _context.Users.Include(x => x.Photos).ToListAsync();
             return users;
+        }
+
+        public async Task<Photo> GetMainPhoto(int userId)
+        {
+            var photo = await _context.Photo.Where(p => p.UserId == userId).FirstOrDefaultAsync(x => x.IsMain);
+            return photo;
         }
 
         public async Task<User> GetUser(int id)

@@ -10,17 +10,28 @@ import { environment } from 'src/environments/environment';
 export class UserService {
   constructor(private http: HttpClient) {}
 
-  baseUrl = environment.apiBaseUrl + 'users';
+  public baseUrl = environment.apiBaseUrl + 'users';
 
-  getUsers(): Observable<User[]> {
+  public getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.baseUrl);
   }
 
-  getUser(id: number): Observable<User> {
+  public getUser(id: number): Observable<User> {
     return this.http.get<User>(this.baseUrl + '/' + id);
   }
 
-  updateUser(id: number, user: User) {
+  public updateUser(id: number, user: User) {
     return this.http.put(this.baseUrl + '/' + id, user);
+  }
+
+  public setMainPhoto(userId: number, id: number) {
+    return this.http.post(
+      this.baseUrl + '/' + userId + '/photos/' + id + '/setMainPhoto',
+      {}
+    );
+  }
+
+  public deletePhoto(userId: number, id: number) {
+    return this.http.delete(this.baseUrl + '/' + userId + '/photos/' + id);
   }
 }
