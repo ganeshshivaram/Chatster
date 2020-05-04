@@ -42,8 +42,8 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
-  register(registerData: any) {
-    return this.http.post(this.baseUrl + 'register', registerData);
+  register(user: User) {
+    return this.http.post(this.baseUrl + 'register', user);
   }
 
   isLoggedIn(): boolean {

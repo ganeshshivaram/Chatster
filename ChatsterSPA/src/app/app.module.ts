@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
@@ -8,6 +8,7 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { FileUploadModule } from 'ng2-file-upload';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 import { AuthService } from 'src/_services/auth.service';
 import { HttpInterceptorProvider } from 'src/_services/error.interceptor';
@@ -53,6 +54,7 @@ export function tokenGetter() {
     FormsModule,
     BrowserAnimationsModule,
     BsDropdownModule.forRoot(),
+    BsDatepickerModule.forRoot(),
     RoutesRoutes,
     JwtModule.forRoot({
       config: {
@@ -64,6 +66,7 @@ export function tokenGetter() {
     TabsModule.forRoot(),
     NgxGalleryModule,
     FileUploadModule,
+    ReactiveFormsModule,
   ],
   providers: [
     AuthService,

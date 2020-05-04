@@ -16,7 +16,7 @@
     <div *ngIf="loggedIn()" class="dropdown" dropdown>
       <span class="mr-2">
         <img
-          src="{{ photoUrl }}"
+          src="{{ photoUrl || '../../../../assets/user.png' }}"
           alt="{{ authService.loggedInUser.knownAs }}"
         />
       </span>

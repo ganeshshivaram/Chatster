@@ -36,14 +36,13 @@ namespace ChatsterApi.Controllers
             if (await _authRepository.DoesUserExist(userForRegisterDto.Username))
                 return BadRequest("User already exists");
 
-            var userToCreate = new User()
-            {
-                Username = userForRegisterDto.Username
-            };
+            var userToCreate = _mapper.Map<User>(userForRegisterDto);
 
             var createdUser = await _authRepository.Register(userToCreate, userForRegisterDto.Password);
 
-            return Ok(createdUser);
+            var userToReturn = _mapper.Map<UserForDetailedDto>(createdUser);
+
+            return Ok(userToReturn);
         }
 
         [HttpPost("login")]
