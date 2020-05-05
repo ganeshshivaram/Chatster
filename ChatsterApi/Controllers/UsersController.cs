@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 using AutoMapper;
 using ChatsterApi.Data;
 using ChatsterApi.Dtos;
+using ChatsterApi.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChatsterApi.Controllers
 {
     [Authorize]
+    [ServiceFilter(typeof(LogUserActivity))]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
