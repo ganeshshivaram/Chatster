@@ -1,5 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace ChatsterApi.Helpers
 {
@@ -9,9 +11,19 @@ namespace ChatsterApi.Helpers
         {
             httpResponse.Headers.Add("Application-Error", message);
             httpResponse.Headers.Add("Access-Control-Allow-Origin", "*");
-            httpResponse.Headers.Add("Access-Control-Expose_Headers", "Application-Error");
+            httpResponse.Headers.Add("Access-Control-Expose-Headers", "Application-Error");
         }
 
+        public static void AddPaginationHeaders(this HttpResponse httpResponse, int currentPage, int itemsPerPage,
+        int totalItems, int totalPages)
+        {
+            var paginationHeader = new PaginationHeader(currentPage, itemsPerPage, totalItems, totalPages);
+            var camelCaseFormatter = new JsonSerializerSettings();
+            camelCaseFormatter.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            httpResponse.Headers.Add("Pagination", JsonConvert.SerializeObject(paginationHeader, camelCaseFormatter));
+            httpResponse.Headers.Add("Access-Control-Expose-Headers", "Pagination");
+
+        }
         public static int CalculateAge(this DateTime? theDateTime)
         {
             if (!theDateTime.HasValue)

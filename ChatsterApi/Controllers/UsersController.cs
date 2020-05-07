@@ -27,10 +27,20 @@ namespace ChatsterApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllUsers()
+        public async Task<IActionResult> GetAllUsers([FromQuery] UserParams userParams)
         {
-            var users = await _userRepo.GetAllUsers();
+            var currentLoggedInUserId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            userParams.UserId = currentLoggedInUserId;
+
+            var currentLoggedInUser = await _userRepo.GetUser(currentLoggedInUserId);
+
+            if (string.IsNullOrWhiteSpace(userParams.Gender))
+                userParams.Gender = currentLoggedInUser.Gender == "male" ? "female" : "male";
+
+            var users = await _userRepo.GetAllUsers(userParams);
+
             var usersForListing = _mapper.Map<IEnumerable<UserForListingDto>>(users);
+            Response.AddPaginationHeaders(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
             return Ok(usersForListing);
         }
 

@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ChatsterApi.Helpers;
 using ChatsterApi.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,10 +28,30 @@ namespace ChatsterApi.Data
             _context.Remove(entity);
         }
 
-        public async Task<List<User>> GetAllUsers()
+        public async Task<PagedList<User>> GetAllUsers(UserParams userParams)
         {
-            var users = await _context.Users.Include(x => x.Photos).ToListAsync();
-            return users;
+            var users = _context.Users.Include(x => x.Photos)
+                                      .OrderByDescending(x => x.LastActive)
+                                      .AsQueryable();
+            users = users.Where(x => x.Id != userParams.UserId);
+            users = users.Where(x => x.Gender == userParams.Gender);
+
+            var minDob = DateTime.Now.AddYears(-userParams.MaxAge);
+            var maxDob = DateTime.Now.AddYears(-userParams.MinAge);
+
+            users = users.Where(x => x.DateOfBirth >= minDob && x.DateOfBirth <= maxDob);
+
+            switch (userParams.OrderBy.ToLower())
+            {
+                case "created":
+                    users = users.OrderByDescending(x => x.CreatedDate);
+                    break;
+                default:
+                    users = users.OrderByDescending(x => x.LastActive);
+                    break;
+            }
+
+            return await PagedList<User>.CreateAsync(users, userParams.PageNumber, userParams.PageSize);
         }
 
         public async Task<Photo> GetMainPhoto(int userId)

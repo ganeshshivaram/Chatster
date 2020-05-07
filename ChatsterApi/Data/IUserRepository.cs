@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using ChatsterApi.Helpers;
 using ChatsterApi.Models;
 
 namespace ChatsterApi.Data
@@ -12,7 +13,7 @@ namespace ChatsterApi.Data
 
         Task<User> GetUser(int id);
 
-        Task<List<User>> GetAllUsers();
+        Task<PagedList<User>> GetAllUsers(UserParams userParams);
 
         Task<bool> SaveAll();
         Task<Photo> GetMainPhoto(int userId);

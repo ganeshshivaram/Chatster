@@ -3,6 +3,8 @@ import { UserService } from 'src/_services/user.service';
 import { User } from 'src/_models/user';
 import { AlertifyService } from 'src/_services/alertify.service';
 import { ActivatedRoute } from '@angular/router';
+import { IPagination, PaginatedResult } from 'src/_models/pagination';
+import { AuthService } from 'src/_services/auth.service';
 
 @Component({
   selector: 'app-member-list',
@@ -11,8 +13,15 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class MemberListComponent implements OnInit {
   users: User[];
-
+  user: User = this.authService.loggedInUser;
+  genderList = [
+    { value: 'male', display: 'Males' },
+    { value: 'female', display: 'Females' },
+  ];
+  userParams: any = {};
+  pagination: IPagination;
   constructor(
+    private authService: AuthService,
     private userService: UserService,
     private alertify: AlertifyService,
     private route: ActivatedRoute
@@ -20,7 +29,44 @@ export class MemberListComponent implements OnInit {
 
   ngOnInit() {
     this.route.data.subscribe((data) => {
-      this.users = data.users;
+      this.users = data.users.result;
+      this.pagination = data.users.pagination;
     });
+
+    this.userParams.gender = this.user.gender === 'female' ? 'male' : 'female';
+    this.userParams.minAge = 18;
+    this.userParams.maxAge = 99;
+    this.userParams.orderBy = 'lastActive';
+  }
+
+  resetFilters() {
+    this.userParams.gender = this.user.gender === 'female' ? 'male' : 'female';
+    this.userParams.minAge = 18;
+    this.userParams.maxAge = 99;
+    this.userParams.orderBy = 'lastActive';
+    this.loadUsers();
+  }
+
+  pageChanged(event: any): void {
+    this.pagination.currentPage = event.page;
+    this.loadUsers();
+  }
+
+  loadUsers() {
+    this.userService
+      .getUsers(
+        this.pagination.currentPage,
+        this.pagination.itemsPerPage,
+        this.userParams
+      )
+      .subscribe(
+        (res: PaginatedResult<User[]>) => {
+          this.users = res.result;
+          this.pagination = res.pagination;
+        },
+        (error) => {
+          this.alertify.error(error);
+        }
+      );
   }
 }
