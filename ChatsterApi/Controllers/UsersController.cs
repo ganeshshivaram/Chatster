@@ -6,6 +6,7 @@ using AutoMapper;
 using ChatsterApi.Data;
 using ChatsterApi.Dtos;
 using ChatsterApi.Helpers;
+using ChatsterApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -66,6 +67,30 @@ namespace ChatsterApi.Controllers
                     return NoContent();
             }
             throw new Exception($"Updating user with {id} failed");
+        }
+
+        [HttpPost("{id}/like/{recipientId}")]
+        public async Task<IActionResult> SendLike(int id, int recipientId)
+        {
+
+            if (id != Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+
+            var recipientUser = await _userRepo.GetUser(recipientId);
+            if (recipientUser == null)
+            {
+                return NotFound();
+            }
+
+            var like = await _userRepo.GetLike(id, recipientId);
+
+            if (like != null)
+                return BadRequest("User has already been liked");
+
+            like = new Like() { LikerId = id, LikeeId = recipientId };
+            _userRepo.Add<Like>(like);
+
+            return Ok();
         }
     }
 }

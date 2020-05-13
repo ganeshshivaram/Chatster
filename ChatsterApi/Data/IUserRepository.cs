@@ -17,5 +17,7 @@ namespace ChatsterApi.Data
 
         Task<bool> SaveAll();
         Task<Photo> GetMainPhoto(int userId);
+
+        Task<Like> GetLike(int userId, int recipientId);
     }
 }

@@ -21,5 +21,9 @@ namespace ChatsterApi.Helpers
         public int MaxAge { get; set; } = 120;
 
         public string OrderBy { get; set; } = string.Empty;
+
+        public bool Likees { get; set; } = false;
+
+        public bool Likers { get; set; } = false;
     }
 }
