@@ -11,6 +11,7 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { TimeAgoPipe } from 'time-ago-pipe';
 
 import { AuthService } from 'src/_services/auth.service';
 import { HttpInterceptorProvider } from 'src/_services/error.interceptor';
@@ -32,6 +33,8 @@ import { MemberDetailComponent } from './members/member-detail/member-detail.com
 import { MemberEditComponent } from './members/member-edit/member-edit.component';
 import { PhotoEditorComponent } from './photo/photo-editor/photo-editor.component';
 import { ListResolver } from 'src/_resolvers/list.resolver';
+import { MessagesResolver } from 'src/_resolvers/messages.resolver';
+import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -39,6 +42,7 @@ export function tokenGetter() {
 
 @NgModule({
   declarations: [
+    TimeAgoPipe,
     AppComponent,
     NavComponent,
     HomeComponent,
@@ -50,6 +54,7 @@ export function tokenGetter() {
     MemberDetailComponent,
     MemberEditComponent,
     PhotoEditorComponent,
+    MemberMessagesComponent,
   ],
   imports: [
     BrowserModule,
@@ -63,8 +68,9 @@ export function tokenGetter() {
     RoutesRoutes,
     JwtModule.forRoot({
       config: {
-        tokenGetter: tokenGetter,
+        tokenGetter,
         whitelistedDomains: ['localhost:5000'],
+        // tslint:disable-next-line: object-literal-sort-keys
         blacklistedRoutes: ['localhost:5000/api/auth'],
       },
     }),
@@ -81,7 +87,9 @@ export function tokenGetter() {
     MembersResolver,
     MemberEditResolver,
     ListResolver,
+    MessagesResolver,
   ],
+  // tslint:disable-next-line: object-literal-sort-keys
   bootstrap: [AppComponent],
 })
 export class AppModule {}

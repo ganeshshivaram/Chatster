@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChatsterApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200513024749_AddedLikeEntity")]
-    partial class AddedLikeEntity
+    [Migration("20200514065922_AddLikesAndMessagingModel")]
+    partial class AddLikesAndMessagingModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,6 +31,45 @@ namespace ChatsterApi.Migrations
                     b.HasIndex("LikeeId");
 
                     b.ToTable("Likes");
+                });
+
+            modelBuilder.Entity("ChatsterApi.Models.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("DateRead")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("MessageSent")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("RecipientDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("RecipientId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("SenderDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SenderId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RecipientId");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("Message");
                 });
 
             modelBuilder.Entity("ChatsterApi.Models.Photo", b =>
@@ -139,7 +178,22 @@ namespace ChatsterApi.Migrations
                     b.HasOne("ChatsterApi.Models.User", "Liker")
                         .WithMany("Likees")
                         .HasForeignKey("LikerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ChatsterApi.Models.Message", b =>
+                {
+                    b.HasOne("ChatsterApi.Models.User", "Recipient")
+                        .WithMany("MessagesReceived")
+                        .HasForeignKey("RecipientId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ChatsterApi.Models.User", "Sender")
+                        .WithMany("MessagesSent")
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
