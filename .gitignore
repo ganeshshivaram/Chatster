@@ -8,3 +8,4 @@ ChatsterApi/ChatsterApi.DB
 ChatsterApi/ChatsterApi.DB-shm
 ChatsterApi/ChatsterApi.DB-wal
 ChatsterApi/appsettings.json
+ChatsterApi/wwwroot/

@@ -18,16 +18,12 @@ namespace ChatsterApi.Data
         public async Task<Message> GetMessage(int id)
         {
             return await _context.Message
-                            .Include(m => m.Sender).ThenInclude(u => u.Photos)
-                            .Include(m => m.Recipient).ThenInclude(u => u.Photos)
-                            .FirstOrDefaultAsync(m => m.Id == id);
+                                 .FirstOrDefaultAsync(m => m.Id == id);
         }
 
         public async Task<PagedList<Message>> GetMessagesForUser(MessageParams messageParams)
         {
             var messages = _context.Message
-                                    .Include(m => m.Sender).ThenInclude(u => u.Photos)
-                                    .Include(m => m.Recipient).ThenInclude(u => u.Photos)
                                     .AsQueryable();
 
             switch (messageParams.MessageContainer.ToLower())
@@ -54,8 +50,6 @@ namespace ChatsterApi.Data
         public async Task<IEnumerable<Message>> GetMessageThread(int senderId, int receiverId)
         {
             var messages = await _context.Message
-                                     .Include(m => m.Sender).ThenInclude(u => u.Photos)
-                                     .Include(m => m.Recipient).ThenInclude(u => u.Photos)
                                      .Where(x => (x.SenderId == senderId && x.SenderDeleted == false && x.RecipientId == receiverId) ||
                                             x.RecipientId == senderId && x.RecipientDeleted == false && x.SenderId == receiverId)
                                      .OrderByDescending(m => m.MessageSent)

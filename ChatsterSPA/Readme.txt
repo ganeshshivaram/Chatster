@@ -18,3 +18,11 @@ material ui theme
 prettier
 TSLint
 angular2-switcher
+
+
+Deployment:
+
+1. Modify angular.json -> build -> outputPath
+2. In Startup.cs -> Add UseDefaultFiles() and UseStaticFiles()
+3. Create fallback controller to serve physical file
+4. Check environment.prod.TSLint

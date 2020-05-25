@@ -30,7 +30,7 @@ namespace ChatsterApi.Data
 
         public async Task<PagedList<User>> GetAllUsers(UserParams userParams)
         {
-            var users = _context.Users.Include(x => x.Photos)
+            var users = _context.Users
                                       .OrderByDescending(x => x.LastActive)
                                       .AsQueryable();
             users = users.Where(x => x.Id != userParams.UserId);
@@ -68,7 +68,7 @@ namespace ChatsterApi.Data
 
         private async Task<IEnumerable<int>> GetUserLikes(int id, bool likers)
         {
-            var user = await _context.Users.Include(x => x.Likers).Include(x => x.Likees)
+            var user = await _context.Users
                                      .FirstOrDefaultAsync(u => u.Id == id);
 
             if (likers)
@@ -95,7 +95,7 @@ namespace ChatsterApi.Data
 
         public async Task<User> GetUser(int id)
         {
-            var user = await _context.Users.Include(x => x.Photos)
+            var user = await _context.Users
                             .FirstOrDefaultAsync(x => x.Id == id);
             return user;
         }
