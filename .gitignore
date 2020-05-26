@@ -7,5 +7,5 @@ ChatsterApi/obj
 ChatsterApi/ChatsterApi.DB
 ChatsterApi/ChatsterApi.DB-shm
 ChatsterApi/ChatsterApi.DB-wal
-ChatsterApi/appsettings.json
+ChatsterApi/appsettings.development.json
 ChatsterApi/wwwroot/
