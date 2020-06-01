@@ -35,3 +35,10 @@ dotnet ef migrations add <MigrationName>
 dotnet ef database update
 
 dotnet ef migrations remove -f
+
+
+Deployment:
+
+set ASPNETCORE_ENVIRONMENT=Production
+dotnet build
+dotnet publish --configuration Release

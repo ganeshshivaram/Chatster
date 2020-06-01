@@ -6,12 +6,13 @@ import { environment } from 'src/environments/environment';
 import { PaginatedResult } from 'src/_models/pagination';
 import { map } from 'rxjs/operators';
 import { Message } from 'src/_models/Message';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   public baseUrl = environment.apiBaseUrl + 'users';
 

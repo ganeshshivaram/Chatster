@@ -35,6 +35,8 @@ import { PhotoEditorComponent } from './photo/photo-editor/photo-editor.componen
 import { ListResolver } from 'src/_resolvers/list.resolver';
 import { MessagesResolver } from 'src/_resolvers/messages.resolver';
 import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
+import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
+import { HasRoleDirective } from 'src/_directives/hasRole.directive';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -55,6 +57,8 @@ export function tokenGetter() {
     MemberEditComponent,
     PhotoEditorComponent,
     MemberMessagesComponent,
+    AdminPanelComponent,
+    HasRoleDirective,
   ],
   imports: [
     BrowserModule,

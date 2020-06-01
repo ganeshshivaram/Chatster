@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ChatsterApi.Controllers
 {
-    [Authorize]
     [ServiceFilter(typeof(LogUserActivity))]
     [Route("api/[controller]")]
     [ApiController]

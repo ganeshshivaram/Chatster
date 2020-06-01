@@ -10,7 +10,6 @@ namespace ChatsterApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class ValuesController : ControllerBase
     {
         private readonly DataContext _context;
@@ -21,14 +20,16 @@ namespace ChatsterApi.Controllers
         }
         // GET api/values
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Get()
         {
-           var values = await _context.Values.ToListAsync();
-           return Ok(values);
+            var values = await _context.Values.ToListAsync();
+            return Ok(values);
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
+        [Authorize(Roles = "Member")]
         public async Task<IActionResult> Get(int id)
         {
             var value = await _context.Values.FirstOrDefaultAsync(x => x.Id == id);

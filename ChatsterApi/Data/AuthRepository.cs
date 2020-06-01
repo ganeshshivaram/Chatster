@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using ChatsterApi.Models;
 using Microsoft.EntityFrameworkCore;
 
+// *********************   REDUNDANT - NO LONGER USED ******************
 namespace ChatsterApi.Data
 {
     public class AuthRepository : IAuthRepository
@@ -16,20 +17,20 @@ namespace ChatsterApi.Data
         }
         public async Task<bool> DoesUserExist(string username)
         {
-            if (await _context.Users.AnyAsync(x => x.Username == username))
+            if (await _context.Users.AnyAsync(x => x.UserName == username))
                 return true;
             return false;
         }
 
         public async Task<User> Login(string username, string password)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == username);
 
             if (user == null)
                 return null;
 
-            if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
-                return null;
+            //  if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
+            //     return null;
 
             return user;
         }
@@ -57,8 +58,8 @@ namespace ChatsterApi.Data
 
             CreatePasswordHash(password, out passwordHash, out passwordSalt);
 
-            user.PasswordHash = passwordHash;
-            user.PasswordSalt = passwordSalt;
+            // user.PasswordHash = passwordHash;
+            // user.PasswordSalt = passwordSalt;
 
             await _context.Users.AddAsync(user);
             _context.SaveChanges();

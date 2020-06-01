@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ChatsterApi.Controllers
 {
-    [Authorize]
     [ServiceFilter(typeof(LogUserActivity))]
     [ApiController]
     [Route("api/users/{userId}/[controller]")]
@@ -58,7 +57,7 @@ namespace ChatsterApi.Controllers
 
         }
         [HttpGet]
-        public async Task<IActionResult> GetMessagesForUser(int userId, [FromQuery]MessageParams messageParams)
+        public async Task<IActionResult> GetMessagesForUser(int userId, [FromQuery] MessageParams messageParams)
         {
 
             if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
